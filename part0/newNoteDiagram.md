@@ -8,14 +8,12 @@ sequenceDiagram
     server-->>browser: status code 302, URL redirect
     deactivate server
 
-    browser->>server: GET
-https://studies.cs.helsinki.fi/exampleapp/notes
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
     deactivate server
 
-    browser->>server: GET
-https://studies.cs.helsinki.fi/exampleapp/main.css
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
     activate server
     server-->>browser: the css file
     deactivate server
