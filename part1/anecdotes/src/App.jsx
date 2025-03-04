@@ -6,6 +6,19 @@ const Button = ({ onClick, text }) => {
   )
 }
 
+const AnecdoteWithMostVote = ({anecdotes, votes}) => {
+  const indexOfMaxVote = Object.values(votes).indexOf(Math.max(...Object.values(votes)))
+  return (
+    <>
+      <h1>Anecdote with most votes</h1>
+      <div>
+        {anecdotes[indexOfMaxVote]} <br></br>
+        has {votes[indexOfMaxVote]} votes
+      </div>
+    </>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -18,10 +31,10 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
   const [selected, setSelected] = useState(0)
-  const zeroFilledObject = {};
+  const zeroFilledObject = {}
   anecdotes.forEach((key, index) => {
-    zeroFilledObject[index] = 0;
-  });
+    zeroFilledObject[index] = 0
+  })
   const [votes, setVotes] = useState(zeroFilledObject)
 
   const handleNextAnecdote = () => {
@@ -35,10 +48,14 @@ const App = () => {
 
   return (
     <>
-      <div>{anecdotes[selected]}</div>
-      <p>has {votes[selected]} votes</p>
+      <h1>Anecdote of the day</h1>
+      <div>
+        {anecdotes[selected]} <br></br>
+        has {votes[selected]} votes
+      </div>
       <Button onClick={handleVote} text="vote" />
       <Button onClick={handleNextAnecdote} text="next anecdote" />
+      <AnecdoteWithMostVote anecdotes = {anecdotes} votes = {votes}/>
     </>
   )
 }
