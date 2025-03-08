@@ -22,14 +22,10 @@ const Course = ({ course }) => (
 )
 
 const Total = ({ parts }) => {
-  let total = 0
-
-  parts.forEach((part) => {
-    total += part.exercises
-  })
+  const total = parts.reduce((s, p) => ({ exercises: s.exercises + p.exercises }))
 
   return (
-    <b>total of {total} exercises</b>
+    <b>total of {total.exercises} exercises</b>
   )
 }
 
