@@ -1,6 +1,6 @@
 const Header = (props) => <h1>{props.course}</h1>
 
-const Content = ({parts}) => {
+const Content = ({ parts }) => {
   return (
     <div>
       {parts.map((part) => <Part key={part.id} part={part} />)}
@@ -8,18 +8,30 @@ const Content = ({parts}) => {
   )
 }
 
-const Part = ({part}) => (
+const Part = ({ part }) => (
   <p>
     {part.name} {part.exercises}
   </p>
 )
 
-const Course = ({course}) => (
+const Course = ({ course }) => (
   <>
-    <Header course={course.name}/>
+    <Header course={course.name} />
     <Content parts={course.parts} />
   </>
 )
+
+const Total = ({ parts }) => {
+  let total = 0
+
+  parts.forEach((part) => {
+    total += part.exercises
+  })
+
+  return (
+    <b>total of {total} exercises</b>
+  )
+}
 
 const App = () => {
   const course = {
@@ -41,14 +53,22 @@ const App = () => {
         id: 3
       },
       {
-        name: 'Custom Course',
-        exercises: 3,
+        name: 'Redux',
+        exercises: 11,
         id: 4
       },
     ],
   }
 
-  return <Course course={course} />
+  return (
+    <div>
+      <Course course={course} />
+      <Total
+        parts={
+          course.parts
+        } />
+    </div>
+  )
 }
 
 export default App
