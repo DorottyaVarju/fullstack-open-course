@@ -79,12 +79,12 @@ FORMS
     - the 3 value comparison operations in JS:
         a. strict equality
             - it doesn't perform a type conversion when comparing two thing --> if the types differ, fase is returned --> values AND types must be matched
-            - if(NaN === NaN) false
-            - if(+0 === -0) true
+            - NaN === NaN false
+            - +0 === -0 true
         b. loose equality
             - it performs a type conversion when comparing two things --> only values must be matched
-            - if(NaN == NaN) false
-            - if(+0 == -0) true
+            - NaN == NaN false
+            - +0 == -0 true
         c. Object.is()
             - it doesn't perform a type conversion when comparing two thing --> values AND types must be matched
             - Object.is(NaN, NaN) true
