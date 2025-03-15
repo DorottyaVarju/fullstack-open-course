@@ -89,3 +89,6 @@ FORMS
             - it doesn't perform a type conversion when comparing two thing --> values AND types must be matched
             - Object.is(NaN, NaN) true
             - Object.is(-0, +0) false
+
+12. includes method
+    - when used with strings, it is case sensitive

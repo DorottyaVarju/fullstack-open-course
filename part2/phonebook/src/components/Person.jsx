@@ -1,7 +1,10 @@
-const Person = ({persons}) => {
+const Person = ({persons, search}) => {
+
+    const personsToDisplay = (search === '') ? persons : persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))
+
     return (
         <ul>
-            {persons.map((person) => <li key={person.name}>{person.name} {person.number}</li>)}
+            {personsToDisplay.map((person) => <li key={person.name}>{person.name} {person.number}</li>)}
         </ul>
     )
 }
