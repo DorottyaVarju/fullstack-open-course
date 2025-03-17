@@ -92,3 +92,79 @@ FORMS
 
 12. includes method
     - when used with strings, it is case sensitive
+
+GETTING DATA FROM SERVER
+
+1. JSON Server
+    - it enables the use of server-side functionality in the development phase without the need to program any of it
+    - it can be started without a separate installation --> it can be started by running the next command in the app's root directory: npx json-server --port 3001 db.json
+    - it starts running on port 3000 by default
+    - it can be installed as a development dependency by executing the command: npm install json-server --save-dev
+    - development dependency: only used during development --> so while the API is being created I can develop the frontend, simulating the data the API will return
+
+2. JSONView
+    - it is a plugin for browsers
+    - it formats the display of JSON-data
+
+3. fetching data
+    - old way (not recommended): using XMLHttpRequest 
+        a. XMLHttpRequest = an HTTP request using an XHR object
+        b. event-driven: the event is the onreadystatechange event
+    - new way (widely supported by browsers): the fetch method
+        a. it is based on promises
+
+4. asynchronous model
+    - synchronous:
+        a. the code executes line by line
+        b. the code stops to wait for the HTTP request
+    - JS engines follow the asynchronous model
+    - it requires all IO operations to be executed as non-blocking: i.e. the code execution continues immediately after calling an IO function, without waiting for it to return
+        a. I = input operation, e.g. sending a request to the server
+        b. O = output operation, e.g. Fetching data from the server
+    - at some point after an asynchronous operations's completion, the JS engine calls the event handlers registered to the operation
+    - JS engines are single-threaded by default = JS engines cannot execute code in parallel = it can execute only one task at a time --> it is a requirement to use a non-blocking model for executing IO operations --> otherwise the browser would freeze during the fetching data from a server
+    - non-blocking = JavaScript does not stop (or "block") the execution of the code while waiting for an operation to complete --> instead, it moves on to the next task and handles the result of the operation later, when it's ready
+    - JS engines are single-threaded by default, but it is possible to run parallelized code with the help of web workers --> the event loop (that manages asynchronous tasks (callbacks, promises, etc.)) of an individual browser window is only handled by a single thread
+
+5. axios
+    - it is a library
+    - it can be used for communication between the browser and server
+    - it can be installed from the command line, standing in the root directory of the project: npm install axios
+    - is should be installed as a runtime dependency of the app because the execution of the program requires the existence of the library
+    - the axios library can be brought into use by using the import statement: import axios from 'axios'
+    - axios has a get method --> axios's get method returns a promise
+    - the data returned by the server is one long string --> axios parses the data into a JavaScript array
+
+6. npm
+    - clear indicator that a project uses npm: the package.json file
+    - npm commands should always be run in the project root directory
+
+7. terminating a process binded to a port
+    - on Windows:
+        a. run CMD as administrator
+        b. netstat -ano | findstr :3001
+        c. taskkill /PID 2244 /F
+
+8. promise
+    - it is an object
+    - it represents the eventual completion or failure of an asynchronous operation
+    - it can have 3 distinct stated:
+        a. pending
+        b. fulfilled
+        c. rejected
+    - to access the result of the operation represented by the promise, registering an event handler to the promise is necessary --> registering an event handler to the promise is achieved by using the method then --> the mthen method has a response parameter --> the response parameter is an object
+
+9. useEffect
+    - via effect hook a component can connect to and synchronize with external systems --> external systems:
+        a. network
+        b. browser DOM
+        c. animations
+        d. widgets
+        e. non-React code
+    - effect hook is the right tool to use when fetching data from a server
+    - effect hook is executed after completed rendering, but it can be chosen to fire it only when certain values have changed
+    - it is a function
+    - it takes 2 parameters:
+        a. a function
+        b. variables or empty array --> if this is an empty array, then the effect is only run along with the first render of the component
+
