@@ -1,12 +1,11 @@
-const Person = ({persons, search}) => {
-
-    const personsToDisplay = (search === '') ? persons : persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))
-
+const Person = ({ person, del }) => {
     return (
-        <ul>
-            {personsToDisplay.map((person) => <li key={person.name}>{person.name} {person.number}</li>)}
-        </ul>
-    )
+        <li>
+            {person.name}
+            &nbsp;
+            <button onClick={del}>Delete</button>
+        </li>
+    );
 }
 
 export default Person

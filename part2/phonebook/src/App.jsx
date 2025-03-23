@@ -30,6 +30,18 @@ const App = () => {
     setSearch(event.target.value)
   }
 
+  const del = id => {
+    const person = persons.find(p => p.id === id)
+
+    if (window.confirm(`Delete ${person.name} ?`) === true) {
+      personService
+        .del(id)
+        .then(returnedPerson => {
+          setPersons(persons.filter(person => person.id !== id));
+        })
+    }
+  }
+
   const addName = event => {
     event.preventDefault()
     const personObject = { name: newName, number: newNumber }
@@ -50,6 +62,10 @@ const App = () => {
       );
   }
 
+  const personsToShow = (search === '')
+    ? persons
+    : persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -57,7 +73,11 @@ const App = () => {
       <h2>add a new</h2>
       <PersonForm addName={addName} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-      <Persons persons={persons} search={search} />
+      <ul>
+        {personsToShow.map(person =>
+          <Persons key={person.id} person={person} del={() => del(person.id)} />
+        )}
+      </ul>
     </div>
   )
 }
