@@ -39,28 +39,50 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.filter(person => person.id !== id));
         })
+        .catch(error => {
+          alert(`the person '${person.name}' was already deleted from server`);
+          setPersons(persons.filter(p => p.id !== person.id));
+        })
     }
   }
 
   const addName = event => {
     event.preventDefault()
     const personObject = { name: newName, number: newNumber }
-    newName === ''
-      ? alert('Enter a name')
-      : (
-        persons.some(person => person.name === newName)
-          ? alert(`${newName} is already added to phonebook`)
-          : (
-            personService
-              .create(personObject)
-              .then(returnedPerson => {
-                setPersons(persons.concat(returnedPerson))
-                setNewName('')
-                setNewNumber('')
-              })
-          )
-      );
-  }
+
+    if (newName === '') {
+      alert('Enter a name')
+    } else {
+
+      if (persons.some(person => person.name === newName)) {
+
+        if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+          const person = persons.find(p => p.name === newName)
+          const changedPerson = { ...person, number: newNumber }
+
+          personService
+            .update(person.id, changedPerson)
+            .then(returnedPerson => {
+              setPersons(persons.map(p => p.id === person.id ? returnedPerson : p))
+              setNewName('')
+              setNewNumber('')
+            })
+            .catch(error => {
+              alert(`the person '${person.name}' does not exist on server`)
+              setPersons(persons.filter(p => p.id !== person.id))
+            });
+        }
+      } else {
+        personService
+          .create(personObject)
+          .then(returnedPerson => {
+            setPersons(persons.concat(returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          });
+      }
+    }
+  };
 
   const personsToShow = (search === '')
     ? persons
