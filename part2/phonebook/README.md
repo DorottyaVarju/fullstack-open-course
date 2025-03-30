@@ -168,3 +168,59 @@ GETTING DATA FROM SERVER
         a. a function
         b. variables or empty array --> if this is an empty array, then the effect is only run along with the first render of the component
 
+ALTERING DATA IN SERVER
+
+1. json-server
+    - it is a package
+    - it claims to be a REST API --> the json-server is not exactly a REST API according to the REST API's definition
+    - it requires all data to be sent in JSON format --> the request must contain the Content-Type request header with the value application/json
+
+2. REST API
+    - resources: individual data objects (in the Phonebook app: persons)
+        a. a resource (in the Phonebook app: a person) has a unique URL (e.g. persons/2 --> 2 is the id of the resource, so it through the persons/2 URL the person with the id 2 can be retrieved) --> a resource is fetched from the server with HTTP GET request
+        b. a resource is created with HTTP POST request --> the data for the new resource is sent in the body of the request
+
+3. sending data to the server
+    - in the Phonebook app the event handler function responsible for creating a resource (a new person) is the addName function --> the new person'data is stored in the personObject object, from which the id is omitted --> the id is omitted because it is better to let the server generate ids for new resources
+    - in the Phonebook app in the addName function the personObject object is sent to the server using the axios post method via the create function from persons.js --> the data sent in the POST request is a JS object, so axios automatically knows to set the application/json value for the Content-Type header
+    - the newly created resource is stored in the value of the data property of the response object
+    - quite often it is useful to inspect HTTP requests in the Network tab:
+        a. in the header tab the headers sent in the POST request can be checked that they are what expected them to be
+        b. in the payload tab the request data can be checked
+        c. the response tab shows what was the data the server responded with
+
+4. the template string syntax
+    - it is added in ES6
+    - it uses the dollar-bracket-syntax to add JS parts to the string
+    - backticks are used in template strings instead of quotation marks
+
+5.  modifying data on server
+    - a resource can be modified in 2 different ways:
+        a. replacing the entire resource with an HTTP PUT request
+        b. only changing some of the resource's properties with an HTTP PATCH request
+
+6. the object spread syntax
+    - { ...object } creates a new object with copies of all the properties from the object --> this copy is a shallow copy: the values of the new object are the same as the values of the old object --> if the values of the old object were objects themselves, then the copied values in the new object would reference the same objects that were in the old object
+    - in the Phonebook app the { ...person, number: newNumber } means that a new person is created and this new object's properties are the copies of the original person object's properties, except for the number property --> the number property's value in the copy of the person object is newNumber
+
+7. map method
+    - it created a new array by mapping every item from the old array into an item in the new array
+    - it applies a function to each element of an existing array
+    - it does not modify the original array: instead, it returns a transformed version of it
+
+8. the single responsibility principle (SRP)
+    - it states that: a class (or function, or module) should have only one reason to change --> each class, function, or module should focus on only one job or responsibility --> if a class or function is responsible for multiple things, it becomes harder to maintain, test, and modify without affecting other parts of the system
+    - benefits of SRP:
+        a. easier to maintain
+        b. more readable
+        c. easier to test 
+    - because of the SRP in the Phonebook app the communication with the backend server is extracted into its own module: src/services/persons.js --> the persons.js module returns an object which contains functions as properties --> these functions directly return the promises returned by the axios methods
+
+9. object literals
+    - if in an object the key's names and its values are the same, the object can be written with a more comapct syntax e. g. const person = { name, age }
+
+
+
+
+    
+
