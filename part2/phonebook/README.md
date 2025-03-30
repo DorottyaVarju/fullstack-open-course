@@ -219,6 +219,34 @@ ALTERING DATA IN SERVER
 9. object literals
     - if in an object the key's names and its values are the same, the object can be written with a more comapct syntax e. g. const person = { name, age }
 
+10. handling a rejected promise
+    - the more common ways of adding a handler for rejected promises is to use the catch method
+    - if the request fails, the event handler registered with the catch method gets called
+    - the catch method can often be found deeper within the promise chain --> when multiple then methods are chained together, a promise chain is created --> the catch method can be used to define a handler function at the end of a promise chain, which is called once any promise in the chain throws an error and the promise becomes rejected
+
+ADDING STYLES TO REACT APP
+
+1. CSS rules
+    - they comprise of selectors and declarations
+        a. selector: it defines which elements the rule should be applied to
+        b. declaration: it sets the property to the value
+    - one CSS rule can contain an arbitrary number of properties
+    - using element types for defining CSS rules is problematic --> it is better to use class selectors
+    - in React the className attribute is used instead of the class attribute
+
+2. inline styles
+    - writing styles directly in the code
+    - the style attribute: any React component or element can be provided with a set of CSS properties as a JS object through the style attribute
+    - every CSS property is defined as a separate property of the JS object
+    - numeric values for pixels can be defined as integers
+    - in regular CSS, some CSS properties are written in kebab-case
+    - in inline-style CSS, some CSS properties are written in camelCase
+    - in inline-style pseudo-classes (e.g. :hover, :focus) can't be used straightforwardly
+
+3. styles philosophy in React
+    - traditionally, the goal was to write CSS, HTML, and JS into their separate files
+    - since the separation of CSS, HTML, and JS into separate files did not seem to scale well in larger applications, React bases the division of the application along the lines of its logical functional entities --> in React, these logical functional entities are components --> a React component defines HTML, CSS and JS: all in one place
+
 
 
 
