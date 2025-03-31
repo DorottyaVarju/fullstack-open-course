@@ -76,7 +76,12 @@ const App = () => {
               setNewNumber('')
             })
             .catch(error => {
-              alert(`the person '${person.name}' does not exist on server`)
+              setMessage(
+                `Information of ${person.name} has already been removed from server`
+              )
+              setTimeout(() => {
+                setMessage(null)
+              }, 5000)
               setPersons(persons.filter(p => p.id !== person.id))
             });
         }
