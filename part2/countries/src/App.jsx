@@ -20,6 +20,10 @@ const App = () => {
     setSearch(event.target.value)
   }
 
+  const show = name => {
+    setSearch(name)
+  }
+
   const countriesToShow = (search === '')
     ? countries
     : countries.filter(country => country.name.common.toLowerCase().includes(search.toLowerCase()))
@@ -30,7 +34,7 @@ const App = () => {
         <Filter search={search} handleSearch={handleSearch} title="find countries" />
         <ul>
           {Object.values(countriesToShow).map(country =>
-            <Countries key={country.cca2} country={country} />
+            <Countries key={country.cca2} country={country} show={() => show(country.name.common)} />
           )}
         </ul>
       </div>
