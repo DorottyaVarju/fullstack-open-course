@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import Countries from './components/Countries'
 import countryService from './services/countries'
+import weatherService from './services/weather'
 import Notification from './components/Notification'
 
 const App = () => {
   const [countries, setCountries] = useState('')
   const [search, setSearch] = useState('')
+  const [weather, setWeather] = useState('')
 
   useEffect(() => {
     countryService
@@ -28,6 +30,16 @@ const App = () => {
     ? countries
     : countries.filter(country => country.name.common.toLowerCase().includes(search.toLowerCase()))
 
+  useEffect(() => {
+    if (countriesToShow.length === 1) {
+      weatherService
+        .getWeather(countriesToShow[0].capitalInfo.latlng[0], countriesToShow[0].capitalInfo.latlng[1])
+        .then(weather => {
+          setWeather(weather)
+        })
+    }
+  }, [search])
+
   if (countriesToShow.length > 1 && countriesToShow.length < 10) {
     return (
       <div>
@@ -44,14 +56,25 @@ const App = () => {
       <div>
         <Filter search={search} handleSearch={handleSearch} title="find countries" />
         <h1>{countriesToShow[0].name.common}</h1>
-        <p>Capital {countriesToShow[0].capital}<br />Area {countriesToShow[0].area}</p>
+        <p>Capital: {countriesToShow[0].capital}<br />Area: {countriesToShow[0].area}</p>
         <h2>Languages</h2>
         <ul>
-          {Object.values(countriesToShow[0].languages).map(language =>
+          {Object.values(countriesToShow[0].languages).map(language => (
             <li key={language}>{language}</li>
-          )}
+          ))}
         </ul>
         <img src={countriesToShow[0].flags.png} alt={countriesToShow[0].flags.alt} />
+        {weather !== '' ? (
+          <>
+            <h2>Weather in {countriesToShow[0].capital}</h2>
+            <p>Temperature: {(weather.main.temp - 273.15).toFixed(2)} Celsius</p>
+            <img
+              src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+              alt={`${weather.weather.description}`}
+            />
+            <p>Wind: {weather.wind.speed} m/s</p>
+          </>
+        ) : null}
       </div>
     )
   } else {
