@@ -7,7 +7,7 @@ import Notification from './components/Notification'
 
 const App = () => {
   const [countries, setCountries] = useState('')
-  const [search, setSearch] = useState('')
+  const [filter, setFilter] = useState('')
   const [weather, setWeather] = useState('')
 
   useEffect(() => {
@@ -18,17 +18,9 @@ const App = () => {
       })
   }, [])
 
-  const handleSearch = (event) => {
-    setSearch(event.target.value)
-  }
-
-  const show = name => {
-    setSearch(name)
-  }
-
-  const countriesToShow = (search === '')
+  const countriesToShow = (filter === '')
     ? countries
-    : countries.filter(country => country.name.common.toLowerCase().includes(search.toLowerCase()))
+    : countries.filter(country => country.name.common.toLowerCase().includes(filter.toLowerCase()))
 
   useEffect(() => {
     if (countriesToShow.length === 1) {
@@ -38,12 +30,20 @@ const App = () => {
           setWeather(weather)
         })
     }
-  }, [search])
+  }, [filter])
 
-  if (countriesToShow.length > 1 && countriesToShow.length < 10) {
+  const handleFilter = (event) => {
+    setFilter(event.target.value)
+  }
+
+  const show = name => {
+    setFilter(name)
+  }
+
+  if (countriesToShow.length > 1 && countriesToShow.length <= 10) {
     return (
       <div>
-        <Filter search={search} handleSearch={handleSearch} title="find countries" />
+        <Filter filter={filter} handleFilter={handleFilter} title="find countries" />
         <ul>
           {Object.values(countriesToShow).map(country =>
             <Countries key={country.cca2} country={country} show={() => show(country.name.common)} />
@@ -54,7 +54,7 @@ const App = () => {
   } else if (countriesToShow.length === 1) {
     return (
       <div>
-        <Filter search={search} handleSearch={handleSearch} title="find countries" />
+        <Filter filter={filter} handleFilter={handleFilter} title="find countries" />
         <h1>{countriesToShow[0].name.common}</h1>
         <p>Capital: {countriesToShow[0].capital}<br />Area: {countriesToShow[0].area}</p>
         <h2>Languages</h2>
@@ -80,7 +80,7 @@ const App = () => {
   } else {
     return (
       <div>
-        <Filter search={search} handleSearch={handleSearch} title="find countries" />
+        <Filter filter={filter} handleFilter={handleFilter} title="find countries" />
         <Notification message="Too many matches, specify another filter" />
       </div>
     )

@@ -1,12 +1,8 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The Countries (Data for countries) app
+ 
+- A filter input is always on the screen. There is a Filter component, which returns a filter input. The Filter component is imported into the App component, where it is always returned. The Filter component gets 3 props: the value of the input's value attribute, the onChange event of the input, and a text (the   title) before the input field.
+- The user starts to type the name of a country in the filter input field, and its value changes by typing every single character thanks to the onChange event of the input. The evenet listener function of the onChange event is the function called handleSearch. The handleSearch function is sent to the Filter component as a props. There is a state for the filter input's value - the search state. The handleSearch function every time the onChange event happens to the filter input field (so everytime a new character typed in) sets this state's value to the character(s) typed in and the component re-renders (because after setting a state, the component always re-renders).
+- Effect hook which has the countryService's getAll function inside, is executed after the url typed in the browser and the app appears on the screen - it is executed just this time, only after the first render. The countryService's getAll function returns the data of all countries grouped by countries. After the promise has fulfilled, the countries state is set to this result, so the component re-renders by returning which is in the the else branch (because it returnes all the countries's data , not only one country's data or 2-10 countries's data).
+- There is the variable countriesToShow which value is different in the case the user typed character(s) into the filter input or not. If not, then it has all the countries as value. If yes, it filters all the countries, and has only the countries which has the characters the user typed in as value. This countriesToShow variable's value's length is examined, and the App component returns jsx accordingly.
+- There is another service beside the countryService: the weatherService (services/weather.js). Its getWeather function always runs after the filter state has changed, and the countriesToShow variable's value contains only one country's data. After the getWeather function returned the current weather data of the country, the app sets the weather state to this returned weather data so the component re-renders returning according to the the else if branch's which condition is that the countriesToShow variable contains only one country's data.
+- There is a a show function with one parameter defined in the App component. Thw show function is sent as a props to the Countries component. The Countries component has a button and by clicking on the button the show event handler function runs, so it sets the filter state's value to its parameter value. The parameter sent to the show event handler can be seen at the App components part where the component returns jsx if the case is that the number of countries is between 1 and 10 or equals to 10. By mapping through the countriesToShow object (which contains the 2-10 countries's data) the Countries component renders 2-10 times, and the show function is sent as props to the Countries component with the actual country's name as the parameter of the show function.
